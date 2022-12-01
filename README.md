@@ -28,14 +28,14 @@ Otherwise, enjoy my solutions :wink:
 | 2015    | https://adventofcode.com/2015 |
 
 ## Get the input
-the input for the challenges are different for each user and thus requires a session cookie.
+the input for the challenges is different for each user and thus requires a session cookie.
 
 ### get the cookie
 please follow the steps in [wimglenn/advent-of-code-wim#1](https://github.com/wimglenn/advent-of-code-wim/issues/1) to get your personal session cookie :thumbsup:
 
 ### store the cookie
 according to [this sub reddit](https://www.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/),
-one should also include their email in the metadata of the GET requests :ok_hand
+one should also include their email in the metadata of the GET requests :ok_hand:
 
 please store your information in a TOML file with the following format:
 ```toml
