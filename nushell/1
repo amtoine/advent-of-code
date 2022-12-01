@@ -1,9 +1,14 @@
 #!/usr/bin/env nu
 
 
+# Day 1: Calorie Counting
+# see https://adventofcode.com/2022/day/1
 def main [
   input: string
-  --gold: bool
+   # the path to the input data locally 
+   # - fetch it from https://adventofcode.com/2022/day/1/input
+   # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
+  --gold: bool  # activate the second part of the challenge
 ] {
   let data = (
     open $input
