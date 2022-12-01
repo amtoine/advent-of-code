@@ -9,10 +9,10 @@ You are warned!
 Otherwise, enjoy my solutions :wink:
 
 ## My solutions
-| year    | challenges                    | location                                            | language  |
-| ------- | ----------------------------- | --------------------------------------------------- | --------- |
-| 2022    | https://adventofcode.com/2022 | https://github.com/amtoine/advent-of-code/tree/2022 | nushell   |
-| 2021    | https://adventofcode.com/2021 | https://github.com/amtoine/advent-of-code/tree/2021 | Oberon-07 |
+| year    | challenges                    | location                                                    | language  |
+| ------- | ----------------------------- | ----------------------------------------------------------- | --------- |
+| 2022    | https://adventofcode.com/2022 | [2022](https://github.com/amtoine/advent-of-code/tree/2022) | nushell   |
+| 2021    | https://adventofcode.com/2021 | [2021](https://github.com/amtoine/advent-of-code/tree/2021) | Oberon-07 |
 
 ## The list of events
 | year    | advent of code                |
