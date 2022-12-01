@@ -1,0 +1,29 @@
+#!/usr/bin/env nu
+
+
+def main [
+  input: string
+  --gold: bool
+] {
+  let data = (
+    open $input
+    | lines
+    | str replace "^$" ":"
+    | str collect ":"
+    | split column ":::"
+    | transpose
+    | get column1
+    | each {|it|
+      $it | split row ":" | into int | math sum
+    }
+  )
+
+  if ($gold) {
+    $data
+    | sort -r
+    | take 3
+    | math sum
+  } else {
+    $data | math max
+  }
+}
