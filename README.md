@@ -70,3 +70,7 @@ def "aoc fetch" [
   fetch -H $header $url
 }
 ```
+used for instance as
+```bash
+> aoc fetch 1 aoc.toml.asc | save aoc.1
+```
