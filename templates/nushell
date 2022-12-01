@@ -1,0 +1,22 @@
+#!/usr/bin/env nu
+
+
+# Day xx: xxx
+# see https://adventofcode.com/xxxx/day/xx
+def main [
+  input: string
+   # the path to the input data locally 
+   # - fetch it from https://adventofcode.com/xxxx/day/xx/input
+   # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
+  --gold: bool  # activate the second part of the challenge
+] {
+  let data = (
+    open $input
+  )
+
+  if ($gold) {
+    $data
+  } else {
+    $data
+  }
+}
