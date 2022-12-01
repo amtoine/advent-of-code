@@ -8,6 +8,9 @@ You are warned!
 
 Otherwise, enjoy my solutions :wink:
 
+## Some templates to gain time
+see the [templates](https://github.com/amtoine/advent-of-code/tree/templates)
+
 ## My solutions
 | year    | challenges                    | location                                                    | language  |
 | ------- | ----------------------------- | ----------------------------------------------------------- | --------- |
