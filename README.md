@@ -62,7 +62,7 @@ def "aoc fetch" [
   let url = $'https://adventofcode.com/2022/day/($day)/input'
 
   let aoc_login = (
-    gpg --decrypt ($login | path expand)
+    gpg --quiet --decrypt ($login | path expand)
     | from toml
   )
   let header = [
