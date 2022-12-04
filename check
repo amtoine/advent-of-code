@@ -49,27 +49,33 @@ def main [
 ] {
   ls $scripts
   | each {|script id|
-    print -n $"Checking day ($id + 1)... "
+    print $"(ansi yellow_bold)Day ($id + 1)(ansi reset):"
+
+    print -n $"  (ansi default_dimmed)Pulling true answers...(ansi reset) "
     let answers = (fetch-aoc-answers ($id + 1) $login)
+    print "ok"
+
+    print -n $"  (ansi default_dimmed)Running silver...(ansi reset) "
     let silver = (^$script.name $"($inputs)/($id + 1).($ext)")
+    print "ok"
+    print -n $"  (ansi default_dimmed)Running gold...(ansi reset) "
     let gold = (^$script.name $"($inputs)/($id + 1).($ext)" --gold)
+    print "ok"
 
     mut good = true
     if ($silver != $answers.silver) {
-      print ""
-      print -n $"(ansi red_bold)silver bad(ansi reset): expected ($answers.silver), got ($silver)"
+      print -n $"(ansi red_bold)silver bad(ansi reset): (ansi red)expected ($answers.silver), got ($silver)(ansi reset)"
       $good = false
+      print ""
     }
     if ($gold != $answers.gold) {
-      print ""
-      print -n $"(ansi red_bold)gold bad(ansi reset): expected ($answers.gold), got ($gold)"
+      print -n $"(ansi red_bold)gold bad(ansi reset): (ansi red)expected ($answers.gold), got ($gold)(ansi reset)"
       $good = false
+      print ""
     }
 
     if ($good) {
       print $"(ansi green_bold)good(ansi reset)"
-    } else {
-      print ""
     }
   }
 }
