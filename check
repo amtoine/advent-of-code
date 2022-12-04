@@ -1,0 +1,57 @@
+#!/usr/bin/env nu
+
+
+def get-aoc-header [
+  login: string
+] {
+  let aoc_login = (
+    gpg --quiet --decrypt ($login | path expand)
+    | from toml
+  )
+  let header = [
+    Cookie $'session=($aoc_login.cookie)'
+    User-Agent $'email: ($aoc_login.mail)'
+  ]
+
+  $header
+}
+
+
+def fetch-aoc-answers [
+  day: int
+  login: string
+] {
+  let url = $'https://adventofcode.com/2022/day/($day)'
+
+  let result = (fetch -H (get-aoc-header $login) $url)
+  let answers = (
+    $result
+    | lines
+    | parse "<p>Your puzzle answer was <code>{answer}</code>{rest}"
+  )
+
+  if ($answers | is-empty) {
+    print "Puzzle not answered"
+  } else {
+    {
+      silver: $answers.answer.0
+      gold: $answers.answer.1
+    }
+  }
+}
+
+
+def main [
+  scripts: string
+  inputs: string
+  login: string
+  ext: string = "txt"
+] {
+  ls $scripts
+  | each {|script id|
+    print $"Checking day ($id + 1)..."
+    fetch-aoc-answers ($id + 1) $login
+    ^$script.name $"($inputs)/($id + 1).($ext)"
+    ^$script.name $"($inputs)/($id + 1).($ext)" --gold
+  }
+}
