@@ -40,14 +40,10 @@ def main [
     return
   }
 
-  let data = (
-    open $input
-    | lines
-  )
-
-  if ($gold) {
-    $data
-    | parse "{other} {todo}"
+  open $input
+  | lines
+  | if ($gold) {
+    parse "{other} {todo}"
     | str replace "A" 1 other
     | str replace "B" 2 other
     | str replace "C" 3 other
@@ -67,8 +63,7 @@ def main [
     }
     | update me {|it| if ($it.me == 0) {3} else {$it.me}}
   } else {
-    $data
-    | parse "{other} {me}"
+    parse "{other} {me}"
     | str replace "X" 1 me
     | str replace "Y" 2 me
     | str replace "Z" 3 me

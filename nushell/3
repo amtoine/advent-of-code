@@ -136,11 +136,10 @@ def main [
     return
   }
 
-  let data = (open $input | lines)
-
-  if ($gold) {
-    $data
-    | wrap groups
+  open $input
+  | lines
+  | if ($gold) {
+    wrap groups
     | update groups {|it| $it.groups | split row ""}
     | group 3
     | wrap groups
@@ -158,8 +157,7 @@ def main [
       get-priority $it.badge
     }
   } else {
-    $data
-    | wrap content
+    wrap content
     | upsert len {|it| $it.content | str length}
     | upsert first {|it| $it.content | split row "" | take ($it.len / 2)}
     | upsert second {|it| $it.content | split row "" | skip ($it.len / 2) | take ($it.len / 2)}

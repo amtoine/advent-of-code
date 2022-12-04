@@ -17,11 +17,10 @@ def main [
     return
   }
 
-  let data = (open $input | lines)
-
-  if ($gold) {
-    $data
-    | split column "," first second
+  open $input
+  | lines
+  | if ($gold) {
+    split column "," first second
     | upsert f {|it| $it.first | split row "-" | into int}
     | upsert s {|it| $it.second | split row "-" | into int}
     | upsert overlap {|it|
@@ -34,8 +33,7 @@ def main [
     }
     | get overlap
   } else {
-    $data
-    | split column "," first second
+    split column "," first second
     | upsert f {|it| $it.first | split row "-" | into int}
     | upsert s {|it| $it.second | split row "-" | into int}
     | upsert f_in_s {|it|
