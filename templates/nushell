@@ -1,5 +1,7 @@
 #!/usr/bin/env nu
 
+let VERSION = "M.m.p"
+
 
 # Day xx: xxx
 # see https://adventofcode.com/xxxx/day/xx
@@ -10,6 +12,11 @@ def main [
    # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
   --gold: bool  # activate the second part of the challenge
 ] {
+  if ((version).version != $VERSION) {
+    print -e $"version should be ($VERSION), got ((version).version)"
+    return
+  }
+
   let data = (
     open $input
   )
