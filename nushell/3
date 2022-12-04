@@ -5,9 +5,9 @@ let priorities = (
   seq char a z
   | append (seq char A Z)
   | wrap char
-  | merge {
+  | merge (
     seq 1 (2 * 26) | wrap priority
-  }
+  )
 )
 
 def get-priority [char: string] {
@@ -137,7 +137,8 @@ def main [
     | group 3
     | wrap groups
     | upsert badge {|it|
-      for letter in $it.groups.groups.0 {
+      $it.groups.groups.0
+      | each {|letter|
         if (($letter in $it.groups.groups.1) and ($letter in $it.groups.groups.2)) {
           $letter | str trim
         }
@@ -155,7 +156,8 @@ def main [
     | upsert first {|it| $it.content | split row "" | take ($it.len / 2)}
     | upsert second {|it| $it.content | split row "" | skip ($it.len / 2) | take ($it.len / 2)}
     | upsert common {|it|
-      for letter in $it.first {
+      $it.first
+      | each {|letter|
         if ($letter in $it.second) {
           $letter | str trim
         }
