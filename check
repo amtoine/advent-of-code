@@ -54,12 +54,22 @@ def main [
     let silver = (^$script.name $"($inputs)/($id + 1).($ext)")
     let gold = (^$script.name $"($inputs)/($id + 1).($ext)" --gold)
 
+    mut good = true
     if ($silver != $answers.silver) {
-      print $"(ansi red_bold)silver bad(ansi reset): expected ($answers.silver), got ($silver)"
-    } else if ($gold != $answers.gold) {
-      print $"(ansi red_bold)gold bad(ansi reset): expected ($answers.gold), got ($gold)"
-    } else {
+      print ""
+      print -n $"(ansi red_bold)silver bad(ansi reset): expected ($answers.silver), got ($silver)"
+      $good = false
+    }
+    if ($gold != $answers.gold) {
+      print ""
+      print -n $"(ansi red_bold)gold bad(ansi reset): expected ($answers.gold), got ($gold)"
+      $good = false
+    }
+
+    if ($good) {
       print $"(ansi green_bold)good(ansi reset)"
+    } else {
+      print ""
     }
   }
 }
