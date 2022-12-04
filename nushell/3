@@ -169,8 +169,6 @@ def main [
         }
       }
     }
-    | update first {|it| $it.first | str collect}
-    | update second {|it| $it.second | str collect}
     | update common {|it| $it.common | take 1 | str collect}
     | upsert priorities {|it|
       #$priorities | where char == "A" | get priority | str collect

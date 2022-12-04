@@ -19,11 +19,11 @@ def main [
 
   open $input
   | lines
+  | split column "," first second
+  | upsert f {|it| $it.first | split row "-" | into int}
+  | upsert s {|it| $it.second | split row "-" | into int}
   | if ($gold) {
-    split column "," first second
-    | upsert f {|it| $it.first | split row "-" | into int}
-    | upsert s {|it| $it.second | split row "-" | into int}
-    | upsert overlap {|it|
+    upsert overlap {|it|
       (
         (($it.f.0 >= $it.s.0) && ($it.f.0 <= $it.s.1)) ||
         (($it.f.1 >= $it.s.0) && ($it.f.1 <= $it.s.1)) ||
@@ -33,10 +33,7 @@ def main [
     }
     | get overlap
   } else {
-    split column "," first second
-    | upsert f {|it| $it.first | split row "-" | into int}
-    | upsert s {|it| $it.second | split row "-" | into int}
-    | upsert f_in_s {|it|
+    upsert f_in_s {|it|
       ($it.f.0 >= $it.s.0) && ($it.f.1 <= $it.s.1)
     }
     | upsert s_in_f {|it|

@@ -44,10 +44,14 @@ def main [
   | lines
   | if ($gold) {
     parse "{other} {todo}"
-    | str replace "A" 1 other
-    | str replace "B" 2 other
-    | str replace "C" 3 other
-    | str replace "X" 0 todo
+  } else {
+    parse "{other} {me}"
+  }
+  | str replace "A" 1 other
+  | str replace "B" 2 other
+  | str replace "C" 3 other
+  | if ($gold) {
+    str replace "X" 0 todo
     | str replace "Y" 3 todo
     | str replace "Z" 6 todo
     | into int other todo
@@ -63,13 +67,9 @@ def main [
     }
     | update me {|it| if ($it.me == 0) {3} else {$it.me}}
   } else {
-    parse "{other} {me}"
-    | str replace "X" 1 me
+    str replace "X" 1 me
     | str replace "Y" 2 me
     | str replace "Z" 3 me
-    | str replace "A" 1 other
-    | str replace "B" 2 other
-    | str replace "C" 3 other
     | into int other me
   }
   | upsert result {|it| ($it.other - $it.me + 3) mod 3}
