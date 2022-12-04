@@ -128,12 +128,10 @@ def main [
    # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
   --gold: bool  # activate the second part of the challenge
 ] {
-  let data = (
-  )
+  let data = (open $input | lines)
 
   if ($gold) {
-    open $input
-    | lines
+    $data
     | wrap groups
     | update groups {|it| $it.groups | split row ""}
     | group 3
@@ -150,11 +148,8 @@ def main [
       #$priorities | where char == "A" | get priority | str collect
       get-priority $it.badge
     }
-    | math sum |
-    get priorities
   } else {
-    open $input
-    | lines
+    $data
     | wrap content
     | upsert len {|it| $it.content | str length}
     | upsert first {|it| $it.content | split row "" | take ($it.len / 2)}
@@ -173,7 +168,7 @@ def main [
       #$priorities | where char == "A" | get priority | str collect
       get-priority $it.common
     }
-    | math sum |
-    get priorities
   }
+  | math sum
+  | get priorities
 }

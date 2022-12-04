@@ -10,9 +10,9 @@ def main [
    # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
   --gold: bool  # activate the second part of the challenge
 ] {
+  let data = (open $input | lines)
   if ($gold) {
-    open $input
-    | lines
+    $data
     | split column "," first second
     | upsert f {|it| $it.first | split row "-" | into int}
     | upsert s {|it| $it.second | split row "-" | into int}
@@ -25,11 +25,8 @@ def main [
       )
     }
     | get overlap
-    | into int
-    | math sum
   } else {
-    open $input
-    | lines
+    $data
     | split column "," first second
     | upsert f {|it| $it.first | split row "-" | into int}
     | upsert s {|it| $it.second | split row "-" | into int}
@@ -43,7 +40,7 @@ def main [
       $it.s_in_f || $it.f_in_s
     }
     | get in
-    | into int
-    | math sum
   }
+  | into int
+  | math sum
 }
