@@ -1,5 +1,8 @@
 #!/usr/bin/env nu
 
+let VERSION = "0.72.0"
+
+
 # convert a game code into a result
 #
 # 0 is a draw
@@ -32,6 +35,11 @@ def main [
    # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
   --gold: bool  # activate the second part of the challenge
 ] {
+  if ((version).version != $VERSION) {
+    print -e $"version should be ($VERSION), got ((version).version)"
+    return
+  }
+
   let data = (
     open $input
     | lines

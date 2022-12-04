@@ -1,5 +1,6 @@
 #!/usr/bin/env nu
 
+let VERSION = "0.72.0"
 
 let priorities = (
   seq char a z
@@ -119,6 +120,8 @@ def get-priority [char: string] {
     -1
   }
 }
+
+
 # Day 3: Rucksack Reorganization
 # see https://adventofcode.com/2022/day/3
 def main [
@@ -128,6 +131,11 @@ def main [
    # - see https://github.com/amtoine/advent-of-code/tree/main#get-the-input
   --gold: bool  # activate the second part of the challenge
 ] {
+  if ((version).version != $VERSION) {
+    print -e $"version should be ($VERSION), got ((version).version)"
+    return
+  }
+
   let data = (open $input | lines)
 
   if ($gold) {
