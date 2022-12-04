@@ -17,9 +17,7 @@ def main [
     return
   }
 
-  let data = (
-    open $input
-  )
+  let data = (open $input | lines)
 
   if ($gold) {
     $data
