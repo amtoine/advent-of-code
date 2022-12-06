@@ -25,19 +25,7 @@ def main [
   )
 
   for -n window in $windows {
-    mut good = true
-
-    for -n i in $window.item {
-      for -n j in $window.item {
-        if ($i.index != $j.index) && ($i.item == $j.item) {
-          $good = false
-          continue
-        }
-      }
-      if ($good) { continue }
-    }
-
-    if ($good) {
+    if (($window.item | uniq -c | where count > 1 | length) == 0) {
       print ($window.index + $window_size)
       break
     }
