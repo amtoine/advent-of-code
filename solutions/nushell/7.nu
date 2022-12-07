@@ -82,6 +82,8 @@ def init-sizes [directory: string] {
   | sort-by depth -r
   | insert size {-1}
   | save $"($directory)/($SIZES_FILE)"
+
+  return $"($directory)/($SIZES_FILE)"
 }
 
 
@@ -131,15 +133,15 @@ def main [
 
   let fs = (build-fs $input)
 
-  init-sizes $fs
+  let sizes = (init-sizes $fs)
 
-  while not (open $"($fs)/($SIZES_FILE)" | where size == -1 | is-empty) {
+  while not (open $sizes | where size == -1 | is-empty) {
     compute-one-size $fs
   }
 
   if ($gold) {
     let used = (
-      open $"($fs)/($SIZES_FILE)"
+      open $sizes
       | where depth == $MIN_DEPTH
       | get size
       | math sum
@@ -147,12 +149,12 @@ def main [
     let unused = ($TOTAL - $used)
     let to_free = ($REQUIRED - $unused)
 
-    open $"($fs)/($SIZES_FILE)"
+    open $sizes
     | where size >= $to_free
     | sort-by size
     | get 0.size
   } else {
-    open $"($fs)/($SIZES_FILE)"
+    open $sizes
     | where size <= 100000
     | get size
     | math sum
