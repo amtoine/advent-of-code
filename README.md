@@ -29,6 +29,7 @@ this is what the `check` script does:
 have a look at `./check --help`
 
 > a solution script has to be executable and have the following signature:
+> ```
 >    > main {flags} <input>
 > 
 >    Flags:
@@ -37,3 +38,4 @@ have a look at `./check --help`
 > 
 >    Parameters:
 >      input <string>
+> ```
