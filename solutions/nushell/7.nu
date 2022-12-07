@@ -6,6 +6,8 @@ let VERSION = "0.72.0"
 let TOTAL = 70000000
 let REQUIRED = 30000000
 
+let SIZES_FILE = "sizes.nuon"
+
 
 def build-fs [input: string] {
   let steps = (
@@ -77,12 +79,12 @@ def init-sizes [directory: string] {
   }
   | sort-by depth -r
   | insert size {-1}
-  | save $"($directory)/sizes.nuon"
+  | save $"($directory)/($SIZES_FILE)"
 }
 
 
 def compute-one-size [directory: string] {
-  let dirs = (open $"($directory)/sizes.nuon")
+  let dirs = (open $"($directory)/($SIZES_FILE)")
 
   let dir = (
     $dirs
@@ -107,7 +109,7 @@ def compute-one-size [directory: string] {
   | update size {|it|
     if ($it.name == $dir.name) {$size} else {$it.size}
   }
-  | save $"($directory)/sizes.nuon"
+  | save $"($directory)/($SIZES_FILE)"
 }
 
 
@@ -125,17 +127,17 @@ def main [
     return
   }
 
-  let dump = (build-fs $input)
+  let fs = (build-fs $input)
 
-  init-sizes $dump
+  init-sizes $fs
 
-  while not (open $"($dump)/sizes.nuon" | where size == -1 | is-empty) {
-    compute-one-size $dump
+  while not (open $"($fs)/($SIZES_FILE)" | where size == -1 | is-empty) {
+    compute-one-size $fs
   }
 
   if ($gold) {
     let used = (
-      open $"($dump)/sizes.nuon"
+      open $"($fs)/($SIZES_FILE)"
       | where depth == 5
       | get size
       | math sum
@@ -143,12 +145,12 @@ def main [
     let unused = ($TOTAL - $used)
     let to_free = ($REQUIRED - $unused)
 
-    open $"($dump)/sizes.nuon"
+    open $"($fs)/($SIZES_FILE)"
     | where size >= $to_free
     | sort-by size
     | get 0.size
   } else {
-    open $"($dump)/sizes.nuon"
+    open $"($fs)/($SIZES_FILE)"
     | where size <= 100000
     | get size
     | math sum
