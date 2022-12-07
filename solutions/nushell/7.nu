@@ -3,6 +3,7 @@
 let VERSION = "0.72.0"
 
 let ROOT = "/tmp/aoc/7"
+let MIN_DEPTH = (($ROOT | split row "/" | length) + 2)
 
 let TOTAL = 70000000
 let REQUIRED = 30000000
@@ -139,7 +140,7 @@ def main [
   if ($gold) {
     let used = (
       open $"($fs)/($SIZES_FILE)"
-      | where depth == 5
+      | where depth == $MIN_DEPTH
       | get size
       | math sum
     )
