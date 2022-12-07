@@ -40,7 +40,7 @@ def build-fs [input: string] {
   )
 
   mkdir $ROOT
-  let root = (mktemp -d $"($ROOT)/XXXXXX")
+  let root = (mktemp -d ([$ROOT "XXXXXX"] | path join))
 
   mut path = ""
 
@@ -73,7 +73,9 @@ def build-fs [input: string] {
 
 
 def init-sizes [directory: string] {
-  ls $"($directory)/**/*"
+  let sizes = ([$directory $SIZES_FILE] | path join)
+
+  ls ([$directory "**" "*"] | path join)
   | where type == dir
   | select name
   | upsert depth {|it|
@@ -81,9 +83,9 @@ def init-sizes [directory: string] {
   }
   | sort-by depth -r
   | insert size {-1}
-  | save $"($directory)/($SIZES_FILE)"
+  | save $sizes
 
-  return $"($directory)/($SIZES_FILE)"
+  return $sizes
 }
 
 
