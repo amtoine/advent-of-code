@@ -1,10 +1,25 @@
 #!/usr/bin/env nu
 
 
+# runs all the solutions on the official inputs for amtoine (that's me)
+# compares the result of both the silver and the gold levels against the
+# official unique solutions for amtoine (that's me, again)
+#
+# a solution script has to be executable and have the following signature:
+#    > main {flags} <input>
+#
+#    Flags:
+#      --gold - activate the second part of the challenge
+#      -h, --help - Display the help message for this command
+#    
+#    Parameters:
+#      input <string>
 def main [
-  scripts_dir: string
-  inputs_dir: string = "inputs"
-  answers_dir: string = "answers"
+  scripts_dir: string  # the path to the solution scripts, e.g. "solutions/nushell"
+  inputs_dir: string = "inputs"  # the location of the challenge inputs,
+    # fetched from https://adventofcode.com/2022/day/<day>/input
+  answers_dir: string = "answers"  # the location of the challenge answers,
+    # parsed from https://adventofcode.com/2022/day/<day> once <day> is completed
 ] {
   ls $scripts_dir
   | each {|script id|
