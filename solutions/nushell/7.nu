@@ -3,6 +3,10 @@
 let VERSION = "0.72.0"
 
 
+let TOTAL = 70000000
+let REQUIRED = 30000000
+
+
 def build-fs [input: string] {
   let steps = (
     open $input
@@ -64,6 +68,49 @@ def build-fs [input: string] {
 }
 
 
+def init-sizes [directory: string] {
+  ls $"($directory)/**/*"
+  | where type == dir
+  | select name
+  | upsert depth {|it|
+    $it.name | split row "/" | length
+  }
+  | sort-by depth -r
+  | insert size {-1}
+  | save $"($directory)/sizes.nuon"
+}
+
+
+def compute-one-size [directory: string] {
+  let dirs = (open $"($directory)/sizes.nuon")
+
+  let dir = (
+    $dirs
+    | where size == -1
+    | get 0
+  )
+
+  let size = (
+    $dir
+    | ls $in.name
+    | each {|el|
+      if ($el.type == file) {
+        open $el.name | into int
+      } else {
+        $dirs | where name == $el.name | get size.0
+      }
+    }
+    | math sum
+  )
+
+  $dirs
+  | update size {|it|
+    if ($it.name == $dir.name) {$size} else {$it.size}
+  }
+  | save $"($directory)/sizes.nuon"
+}
+
+
 # Day 7: No Space Left On Device
 # see https://adventofcode.com/2022/day/7
 def main [
@@ -80,56 +127,21 @@ def main [
 
   let dump = (build-fs $input)
 
-  ls $"($dump)/**/*"
-  | where type == dir
-  | select name
-  | upsert depth {|it|
-    $it.name | split row "/" | length
-  }
-  | sort-by depth -r
-  | insert size {-1}
-  | save $"($dump)/sizes.nuon"
+  init-sizes $dump
 
   while not (open $"($dump)/sizes.nuon" | where size == -1 | is-empty) {
-    let dirs = (open $"($dump)/sizes.nuon")
-
-    let dir = (
-      $dirs
-      | where size == -1
-      | get 0
-    )
-
-    let size = (
-      $dir
-      | ls $in.name
-      | each {|el|
-        if ($el.type == file) {
-          open $el.name | into int
-        } else {
-          $dirs | where name == $el.name | get size.0
-        }
-      }
-      | math sum
-    )
-
-    $dirs
-    | update size {|it|
-      if ($it.name == $dir.name) {$size} else {$it.size}
-    }
-    | save $"($dump)/sizes.nuon"
+    compute-one-size $dump
   }
 
   if ($gold) {
-    let total = 70000000
-    let required = 30000000
     let used = (
       open $"($dump)/sizes.nuon"
       | where depth == 5
       | get size
       | math sum
     )
-    let unused = ($total - $used)
-    let to_free = ($required - $unused)
+    let unused = ($TOTAL - $used)
+    let to_free = ($REQUIRED - $unused)
 
     open $"($dump)/sizes.nuon"
     | where size >= $to_free
