@@ -2,6 +2,7 @@
 
 let VERSION = "0.72.0"
 
+let ROOT = "/tmp/aoc/7"
 
 let TOTAL = 70000000
 let REQUIRED = 30000000
@@ -37,8 +38,8 @@ def build-fs [input: string] {
     }
   )
 
-  mkdir /tmp/aoc/7
-  let root = (mktemp -d /tmp/aoc/7/XXXXXX)
+  mkdir $ROOT
+  let root = (mktemp -d $"($ROOT)/XXXXXX")
 
   mut path = ""
 
