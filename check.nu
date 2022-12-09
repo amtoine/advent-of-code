@@ -20,18 +20,21 @@ def main [
     # fetched from https://adventofcode.com/2022/day/<day>/input
   answers_dir: string = "answers"  # the location of the challenge answers,
     # parsed from https://adventofcode.com/2022/day/<day> once <day> is completed
+  --blacklist (-b): list
 ] {
   ls $scripts_dir
+  | get name
+  | find -v "8.nu"
   | each {|script id|
     print $"(ansi yellow_bold)Day ($id + 1)(ansi reset):"
 
     let answers = (open $"($answers_dir)/($id + 1).json")
 
     print -n $"  (ansi default_dimmed)Running silver...(ansi reset) "
-    let silver = (^$script.name $"($inputs_dir)/($id + 1).txt")
+    let silver = (^$script $"($inputs_dir)/($id + 1).txt")
     print "ok"
     print -n $"  (ansi default_dimmed)Running gold...(ansi reset) "
-    let gold = (^$script.name $"($inputs_dir)/($id + 1).txt" --gold)
+    let gold = (^$script $"($inputs_dir)/($id + 1).txt" --gold)
     print "ok"
 
     mut good = true
