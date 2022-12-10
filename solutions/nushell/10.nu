@@ -76,8 +76,9 @@ def main [
 
     for instruction -n in $instructions {
       $x = ($x + $instruction.item.v)
-      if ((($instruction.index + 2 - 20) mod 40) == 0) {
-        let update = (($instruction.index + 2) * $x)
+      let cycle = ($instruction.index + 2)
+      if ((($cycle - 20) mod 40) == 0) {
+        let update = ($cycle * $x)
         $total = ($total + $update)
       }
     }
