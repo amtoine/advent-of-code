@@ -39,7 +39,7 @@ def main [
     print -n $"  (ansi default_dimmed)Running gold...(ansi reset) "
     let gold = (^$script.name $"($inputs_dir)/($day).txt" --gold)
     if ($gold != $answers.gold) {
-      print $"(ansi red_bold)gold bad(ansi reset): (ansi red)expected ($answers.gold), got ($gold)(ansi reset)"
+      print $"(ansi red_bold)bad(ansi reset): (ansi red)expected ($answers.gold), got ($gold)(ansi reset)"
     } else {
       print $"(ansi green_bold)good(ansi reset)"
     }
