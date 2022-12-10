@@ -30,24 +30,17 @@ def main [
 
     print -n $"  (ansi default_dimmed)Running silver...(ansi reset) "
     let silver = (^$script.name $"($inputs_dir)/($day).txt")
-    print "ok"
+    if ($silver != $answers.silver) {
+      print $"(ansi red_bold)bad(ansi reset): (ansi red)expected ($answers.silver), got ($silver)(ansi reset)"
+    } else {
+      print $"(ansi green_bold)good(ansi reset)"
+    }
+
     print -n $"  (ansi default_dimmed)Running gold...(ansi reset) "
     let gold = (^$script.name $"($inputs_dir)/($day).txt" --gold)
-    print "ok"
-
-    mut good = true
-    if ($silver != $answers.silver) {
-      print -n $"(ansi red_bold)silver bad(ansi reset): (ansi red)expected ($answers.silver), got ($silver)(ansi reset)"
-      $good = false
-      print ""
-    }
     if ($gold != $answers.gold) {
-      print -n $"(ansi red_bold)gold bad(ansi reset): (ansi red)expected ($answers.gold), got ($gold)(ansi reset)"
-      $good = false
-      print ""
-    }
-
-    if ($good) {
+      print $"(ansi red_bold)gold bad(ansi reset): (ansi red)expected ($answers.gold), got ($gold)(ansi reset)"
+    } else {
       print $"(ansi green_bold)good(ansi reset)"
     }
   }
