@@ -162,7 +162,6 @@ def main [
     mut positions = []
 
     for step -n in $steps {
-      print $step.index
       for i in (seq 1 $step.item.n) {
         $h.x = ($h.x + $step.item.dx)
         $h.y = ($h.y + $step.item.dy)
