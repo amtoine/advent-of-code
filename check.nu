@@ -22,16 +22,17 @@ def main [
     # parsed from https://adventofcode.com/2022/day/<day> once <day> is completed
 ] {
   ls $scripts_dir
-  | each {|script id|
-    print $"(ansi yellow_bold)Day ($id + 1)(ansi reset):"
+  | each {|script|
+    let day = ($script.name | path parse | get stem)
+    print $"(ansi yellow_bold)Day ($day)(ansi reset):"
 
-    let answers = (open $"($answers_dir)/($id + 1).json")
+    let answers = (open $"($answers_dir)/($day).json")
 
     print -n $"  (ansi default_dimmed)Running silver...(ansi reset) "
-    let silver = (^$script.name $"($inputs_dir)/($id + 1).txt")
+    let silver = (^$script.name $"($inputs_dir)/($day).txt")
     print "ok"
     print -n $"  (ansi default_dimmed)Running gold...(ansi reset) "
-    let gold = (^$script.name $"($inputs_dir)/($id + 1).txt" --gold)
+    let gold = (^$script.name $"($inputs_dir)/($day).txt" --gold)
     print "ok"
 
     mut good = true
