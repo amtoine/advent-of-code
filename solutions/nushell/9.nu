@@ -29,81 +29,51 @@ def grid [n: int, h, t] {
 
 
 def stay_close [h, t] {
-  # vertical
-  if ($h.x == $t.x) {
-    if ($h.y - $t.y == 2) {
-      {
-        x: $h.x
-        y: ($t.y + 1)
-      }
-    } else if ($h.y - $t.y == -2) {
-      {
-        x: $h.x
-        y: ($t.y - 1)
-      }
-    } else {
-      $t
+  let dx = ($t.x - $h.x)
+  let dy = ($t.y - $h.y)
+
+  if (($dx == 2) and ($dy == 2)) {
+    {
+      x: ($h.x + 1)
+      y: ($h.y + 1)
     }
-  # horizontal
-  } else if ($h.y == $t.y) {
-    if ($h.x - $t.x == 2) {
-      {
-        x: ($t.x + 1)
-        y: $h.y
-      }
-    } else if ($h.x - $t.x == -2) {
-      {
-        x: ($t.x - 1)
-        y: $h.y
-      }
-    } else {
-      $t
+  } else if (($dx == 2) and ($dy == -2)) {
+    {
+      x: ($h.x + 1)
+      y: ($h.y - 1)
     }
-  # diagonal
+  } else if (($dx == -2) and ($dy == -2)) {
+    {
+      x: ($h.x - 1)
+      y: ($h.y - 1)
+    }
+  } else if (($dx == -2) and ($dy == 2)) {
+    {
+      x: ($h.x - 1)
+      y: ($h.y + 1)
+    }
+  } else if ($dy == 2) {
+    {
+      x: $h.x
+      y: ($h.y + 1)
+    }
+  } else if ($dy == -2) {
+    {
+      x: $h.x
+      y: ($h.y - 1)
+    }
+  } else if ($dx == 2) {
+    {
+      x: ($h.x + 1)
+      y: $h.y
+    }
+  } else if ($dx == -2) {
+    {
+      x: ($h.x - 1)
+      y: $h.y
+    }
   } else {
-    if (($h.x == $t.x + 2) and ($h.y == $t.y + 2)) {
-      {
-        x: ($h.x - 1)
-        y: ($h.y - 1)
-      }
-    } else if (($h.x == $t.x + 2) and ($h.y == $t.y - 2)) {
-      {
-        x: ($h.x - 1)
-        y: ($h.y + 1)
-      }
-    } else if (($h.x == $t.x - 2) and ($h.y == $t.y - 2)) {
-      {
-        x: ($h.x + 1)
-        y: ($h.y + 1)
-      }
-    } else if (($h.x == $t.x - 2) and ($h.y == $t.y + 2)) {
-      {
-        x: ($h.x + 1)
-        y: ($h.y - 1)
-      }
-    } else if ($h.x == $t.x + 2) {
-      {
-        x: ($h.x - 1)
-        y: $h.y
-      }
-    } else if ($h.x == $t.x - 2) {
-      {
-        x: ($h.x + 1)
-        y: $h.y
-      }
-    } else if ($h.y == $t.y + 2) {
-      {
-        x: $h.x
-        y: ($h.y - 1)
-      }
-    } else if ($h.y == $t.y - 2) {
-      {
-        x: $h.x
-        y: ($h.y + 1)
-      }
-    } else {
-      $t
-    }
+    $t
   }
 }
 
