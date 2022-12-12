@@ -70,7 +70,18 @@ def main [
         }
 
         let w = $worry
-        $worry = (if ($gold) { $w mod $rule.item.test } else { $w // 3 })
+        $worry = (if ($gold) {
+          if ($rule.item.val == "old") {
+            # $w mod $rule.item.test
+            # $w | math sqrt | math floor
+            $w mod 2
+          } else {
+            $w mod $rule.item.test
+            # $w // ($item | into int)
+          }
+        } else {
+          $w // 3
+        })
 
         let lw = $worry
         let test = if ($gold) {$lw == 0} else {($lw mod $rule.item.test) == 0}
@@ -83,6 +94,10 @@ def main [
       }
 
       $items = ($items | update $rule.index [])
+    }
+    if (($round == 1) or ($round == 20) or (($round mod 1000) == 0)) {
+      print $round
+      print $inspections
     }
   }
 
