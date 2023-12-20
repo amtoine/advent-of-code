@@ -1,14 +1,15 @@
 open Alcotest
 
-let test_hello_with_name name () =
-    let greeting = "Hello " ^ name ^ "!" in
-    let expected = Printf.sprintf "Hello %s!" name in
-    check string "same string" greeting expected
+let test f input expected () =
+    check int "same" expected (f input)
+
+let silver = "pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet"
 
 let suite = [
-    "can greet Tom", `Quick, test_hello_with_name "Tom";
-    "can greet John", `Quick, test_hello_with_name "John";
+    "example", `Quick, test Day_1.silver silver 142
 ]
 
 let () =
-    Alcotest.run "Dummy" [ "Greeting", suite ]
+    Alcotest.run "Day 1: Trebuchet?!" [ "silver", suite ]
