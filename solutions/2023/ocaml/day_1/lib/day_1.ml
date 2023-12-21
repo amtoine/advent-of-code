@@ -35,3 +35,5 @@ let silver input =
         |> List.filter_map combine_first_last
         |> List.map int_of_string
         |> List.fold_left (+) 0
+
+let gold input = String.length input
