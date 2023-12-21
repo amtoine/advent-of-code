@@ -6,7 +6,8 @@ let test f input expected () =
 let test_dir = Sys.getcwd () ^ "/../../../test/"
 
 let suite = [
-    "example", `Quick, test Day_1.silver (Day_1.read_file (test_dir ^ "silver.txt")) 142
+    "example", `Quick, test Day_1.silver (Day_1.read_file (test_dir ^ "silver.txt")) 142;
+    "example", `Quick, test Day_1.silver (Day_1.read_file (test_dir ^ "gold.txt")) 281;
 ]
 
 let () =
