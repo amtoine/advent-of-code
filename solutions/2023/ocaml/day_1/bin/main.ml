@@ -13,6 +13,4 @@ let read_file filename =
     let channel = open_in (Sys.getcwd () ^ "/" ^ filename) in
         read_channel channel
 
-let () = print_endline (
-    string_of_int (Day_1.silver (read_file (Sys.argv.(1))))
-)
+let () = print_int (Day_1.silver (read_file (Sys.argv.(1))))
