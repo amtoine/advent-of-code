@@ -29,3 +29,13 @@ export def "aoc get-data" [
 
     $res.body
 }
+
+# jump to a solution
+export def --env jump [] {
+    let res = ls solutions/*/*/* | get name | input list
+    if $res == null {
+        return
+    }
+
+    cd $res
+}
