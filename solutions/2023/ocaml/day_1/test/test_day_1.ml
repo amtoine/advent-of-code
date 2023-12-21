@@ -1,7 +1,5 @@
-open Alcotest
-
 let test f input expected () =
-    check int "same" expected (f input)
+    Alcotest.(check int) "same" expected (f input)
 
 let test_dir = Sys.getcwd () ^ "/../../../test/"
 
