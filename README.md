@@ -55,31 +55,8 @@ gpg --symmetric --armor --cipher-algo <algo> <file>
 to have it available as a `.asc` file.
 
 ### fetch the data
-i personally use the following `nushell` function:
-```bash
-def "aoc get-data" [
-    day: int,
-    --login: record<cookie: string, mail: string>,
-    --year: int,
-]: nothing -> string {
-    let url = $'https://adventofcode.com/($year)/day/($day)/input'
-
-    let header = [
-        Cookie $'session=($login.cookie)'
-        User-Agent $'email: ($login.mail)'
-    ]
-
-    let res = http get --headers $header --full --allow-errors $url
-    if $res.status != 200 {
-        error make --unspanned {
-          msg: $res.body
-        }
-    }
-
-    $res.body
-}
-```
-used for instance as
+with Nushell,
 ```nushell
-aoc get-data 1 --year 2022 --login (gpg --quiet --decrypt ~/.aoc.asc | from nuon)
+use toolkit.nu
+toolkit aoc get-data --help
 ```
