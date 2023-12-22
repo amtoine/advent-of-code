@@ -22,6 +22,15 @@ let invalid_draw (n, c) = match c with
     | "green" -> n > 13
     | _ -> true
 
+let power draw =
+    let aux c draw = List.filter (fun d -> (snd d) = c) draw
+        |> List.map fst
+        |> List.fold_left max 0 in
+    let blue = aux "blue" draw in
+    let red = aux "red" draw in
+    let green = aux "green" draw in
+    blue * red * green
+
 let silver input =
     String.trim input
         |> String.split_on_char '\n'
@@ -31,4 +40,10 @@ let silver input =
         )
         |> List.fold_left (+) 0
 
-let gold input = String.length input
+let gold input =
+    String.trim input
+        |> String.split_on_char '\n'
+        |> List.map parse
+        |> List.map snd
+        |> List.map power
+        |> List.fold_left (+) 0
