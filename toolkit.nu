@@ -39,3 +39,30 @@ export def --env jump [] {
 
     cd $res
 }
+
+export def "init ocaml" [year: int, day: int]: nothing -> nothing {
+    let day = $"day_($day)"
+    let target = ("solutions" | path join ($year | into string) "ocaml" $day)
+
+    mkdir $target
+    cp ("templates" | path join "ocaml" "*") $target --recursive
+
+    # NOTE: this should work in `do { ... }`
+    ls ($target | path join "**/*")
+        | find day_x
+        | get name
+        | ansi strip
+        | wrap old
+        | insert new {|it| $it.old | str replace day_x $day}
+        | each { mv $in.old $in.new }
+
+    do {
+        cd $target
+
+        ^sd Day_x ($day | str capitalize) **/*
+        ^sd day_x $day **/*
+
+        opam switch create . --deps-only --with-test --with-doc -y
+        open dune-deps | lines | opam install $in -y
+    }
+}

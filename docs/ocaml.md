@@ -1,3 +1,7 @@
+- create a new project day with the template and `toolkit.nu`
+```nushell
+toolkit init ocaml 2023 4
+```
 - go to one of the OCaml solution, e.g. with the `toolkit.nu`
 ```nushell
 toolkit jump  # and then type 'ocaml'
