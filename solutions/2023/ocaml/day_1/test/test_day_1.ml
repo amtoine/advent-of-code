@@ -8,5 +8,7 @@ let () =
         "examples", [
             "silver", `Quick, test Day_1.silver (Day_1__Fs.read_file (data_dir ^ "silver.txt")) 142;
             "gold", `Quick, test Day_1.gold (Day_1__Fs.read_file (data_dir ^ "gold.txt")) 281;
+            "amtoine-silver", `Quick, test Day_1.silver (Day_1__Fs.read_file (data_dir ^ "amtoine.txt")) 53974;
+            "amtoine-gold", `Quick, test Day_1.gold (Day_1__Fs.read_file (data_dir ^ "amtoine.txt")) 52840;
         ]
     ]
