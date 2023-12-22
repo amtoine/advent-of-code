@@ -32,7 +32,7 @@ export def "aoc get-data" [
 
 # jump to a solution
 export def --env jump [] {
-    let res = ls solutions/*/*/* | get name | find --invert "/_data/" | input list
+    let res = ls solutions/*/*/* | get name | find --invert "/_data/" | input list --fuzzy
     if $res == null {
         return
     }
