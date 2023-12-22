@@ -65,14 +65,14 @@ let filter_digits_extended input =
             | "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" -> Some h
             | _ -> None
             in h2 :: aux t (i + 1)
-        in aux (explode input |> List.map (fun c -> String.make 1 c)) 0
+        in aux (explode input |> List.map (String.make 1)) 0
 
 let silver input =
     String.split_on_char '\n' input
         |> List.map (fun l -> l
             |> explode
             |> filter_digits
-            |> List.map (fun c -> String.make 1 c)
+            |> List.map (String.make 1)
         )
         |> List.filter_map combine_first_last
         |> List.map int_of_string
