@@ -8,18 +8,19 @@ let parse input =
     let draws = String.split_on_char ';' draws
         |> List.map (String.split_on_char ',')
         |> List.flatten
-        |> List.map String.trim in
+        |> List.map String.trim
+        |> List.map (fun draw ->
+            match (String.split_on_char ' ' draw) with
+                | [n; t] -> (int_of_string n, t)
+                | _ -> failwith "woopsie on ' ' for draw"
+        ) in
     (id, draws)
 
-let invalid_draw draw =
-    let (n, t) = match (String.split_on_char ' ' draw) with
-        | [n; t] -> (int_of_string n, t)
-        | _ -> failwith "woopsie on ' ' for draw" in
-    match t with
-        | "blue" -> n > 14
-        | "red" -> n > 12
-        | "green" -> n > 13
-        | _ -> true
+let invalid_draw (n, c) = match c with
+    | "blue" -> n > 14
+    | "red" -> n > 12
+    | "green" -> n > 13
+    | _ -> true
 
 let silver input =
     String.trim input
