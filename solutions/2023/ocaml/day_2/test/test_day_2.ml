@@ -7,5 +7,6 @@ let () =
     Alcotest.run "Day 2: Cube Conundrum" [
         "examples", [
             "silver", `Quick, test Day_2.silver (Day_2__Fs.read_file (data_dir ^ "silver.txt")) 8;
+            "gold", `Quick, test Day_2.gold (Day_2__Fs.read_file (data_dir ^ "gold.txt")) 8;
         ]
     ]
