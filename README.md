@@ -21,6 +21,9 @@ Otherwise, enjoy my solutions :wink:
 | [2016](https://adventofcode.com/2016) |                              |                                                                               |                                                                        |
 | [2015](https://adventofcode.com/2015) |                              |                                                                               |                                                                        |
 
+## Some language specific instructions
+- [OCaml](docs/ocaml.md)
+
 ## Get the input
 the input for the challenges is different for each user and thus requires a session cookie.
 
