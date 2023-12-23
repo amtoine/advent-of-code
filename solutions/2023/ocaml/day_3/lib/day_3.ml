@@ -22,21 +22,22 @@ let rec remove_last = function
     | h :: t -> h :: remove_last t
 
 let get_numbers input =
-    let rec aux line curr = match line with
+    let rec aux line curr id = match line with
         | [] -> []
         | h :: t -> match h with
             | "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ->
-                aux t (curr ^ h)
+                aux t (curr ^ h) id
             | _ ->
-                let numbers = List.init (String.length curr) (fun _ -> Some (int_of_string curr)) in
-                numbers :: [None] :: (aux t "") in
-    String.split_on_char '\n' input
+                let numbers = List.init (String.length curr) (fun _ -> Some ((int_of_string curr), id)) in
+                numbers :: [None] :: (aux t "" (id + 1)) in
+    let lines = String.split_on_char '\n' input
         |> List.map (fun l ->
             let chars =
                 List.init (String.length l) (fun i -> String.get l i |> String.make 1)
             in List.append chars ["."]
-        )
-        |> List.map (fun l -> aux l "" |> List.flatten |> remove_last)
+        ) in
+    let p = List.hd lines |> List.length in
+        List.mapi (fun i l -> aux l "" (i * p) |> List.flatten |> remove_last) lines
 
 let next_to i j n p = [
     (i - 1, j - 1);
@@ -60,7 +61,15 @@ let silver input =
     ) gears
         |> List.flatten
         |> List.filter_map Fun.id
-        |> List.sort_uniq (fun a b -> if a = b then 0 else if a < b then 1 else -1)
+        |> List.sort_uniq (fun a b ->
+            if (snd a) = (snd b) then
+                0
+            else if (snd a) < (snd b) then
+                1
+            else
+                -1
+        )
+        |> List.map fst
         |> List.fold_left (+) 0
 
 let gold input = String.length input
