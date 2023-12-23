@@ -31,6 +31,29 @@ let get_numbers input =
         )
         |> List.map (fun l -> aux l "" |> List.flatten)
 
-let silver input = String.length input
+let next_to i j n p = [
+    (i - 1, j - 1);
+    (i - 1, j);
+    (i - 1, j + 1);
+    (i, j - 1);
+    (i, j + 1);
+    (i + 1, j - 1);
+    (i + 1, j);
+    (i + 1, j + 1);
+] |> List.filter (fun (i, j) -> (i >= 0) && (i < n) && (j >= 0) && (j < p))
+
+let silver input =
+    let input = String.trim input in
+    let numbers = get_numbers input in
+    let gears = get_gear_positions input in
+    let n = List.length numbers in
+    let p = List.hd numbers |> List.length in
+    List.map (fun (i, j) ->
+        List.map (fun (i, j) -> List.nth (List.nth numbers i) j) (next_to i j n p)
+    ) gears
+        |> List.flatten
+        |> List.filter_map Fun.id
+        |> List.sort_uniq (fun a b -> if a = b then 0 else if a < b then 1 else -1)
+        |> List.fold_left (+) 0
 
 let gold input = String.length input
