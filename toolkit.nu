@@ -11,9 +11,9 @@
 # )
 # ```
 export def "aoc get-data" [
-    day: int,
-    --year: int,
-    --login: record<cookie: string, mail: string>,
+    day: int,  # the day of the event
+    --year: int,  # the year to consider
+    --login: record<cookie: string, mail: string>,  # the credentials to AoC
 ]: nothing -> string {
     let url = $'https://adventofcode.com/($year)/day/($day)/input'
 
@@ -45,8 +45,8 @@ export def "aoc get-data" [
 # )
 # ```
 export def "aoc get-stars" [
-    --year: int,
-    --login: record<cookie: string, mail: string>,
+    --year: int,  # the year to consider
+    --login: record<cookie: string, mail: string>,  # the credentials to AoC
 ]: nothing -> table<day: int, stars: int> {
     let url = $"https://adventofcode.com/($year)"
 
