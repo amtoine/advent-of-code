@@ -1,3 +1,5 @@
+# get the data of the day for an authenticated user
+#
 # # Examples
 # ```nushell
 # # if `asc.nuon` is a GPG-encrypted file containing with the following signature
@@ -10,8 +12,8 @@
 # ```
 export def "aoc get-data" [
     day: int,
-    --login: record<cookie: string, mail: string>,
     --year: int,
+    --login: record<cookie: string, mail: string>,
 ]: nothing -> string {
     let url = $'https://adventofcode.com/($year)/day/($day)/input'
 
