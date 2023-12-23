@@ -115,8 +115,7 @@ let silver input =
       List.map (fun (i, j) -> List.nth (List.nth numbers i) j) (next_to i j n p))
     gears
   |> List.flatten |> List.filter_map Fun.id
-  |> List.sort_uniq (fun a b ->
-         if snd a = snd b then 0 else if snd a < snd b then 1 else -1)
+  |> List.sort_uniq (fun a b -> snd a - snd b)
   |> List.map fst |> List.fold_left ( + ) 0
 
 let gold input =
@@ -132,8 +131,7 @@ let gold input =
           (fun (i, j) -> List.nth (List.nth numbers i) j)
           (next_to i j n p)
         |> List.filter_map Fun.id |> List.map fst
-        |> List.sort_uniq (fun a b ->
-               if a = b then 0 else if a < b then 1 else -1)
+        |> List.sort_uniq (fun a b -> a - b)
       in
       if List.length part_numbers = 2 then
         List.hd part_numbers * List.nth part_numbers 1
