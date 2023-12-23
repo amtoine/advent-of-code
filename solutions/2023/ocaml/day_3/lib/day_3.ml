@@ -16,6 +16,11 @@ let get_gear_positions input =
         ] |> Bool.not
     )
 
+let rec remove_last = function
+    | [] -> []
+    | [_] -> []
+    | h :: t -> h :: remove_last t
+
 let get_numbers input =
     let rec aux line curr = match line with
         | [] -> []
@@ -27,9 +32,11 @@ let get_numbers input =
                 numbers :: [None] :: (aux t "") in
     String.split_on_char '\n' input
         |> List.map (fun l ->
-            List.init (String.length l) (fun i -> String.get l i |> String.make 1)
+            let chars =
+                List.init (String.length l) (fun i -> String.get l i |> String.make 1)
+            in List.append chars ["."]
         )
-        |> List.map (fun l -> aux l "" |> List.flatten)
+        |> List.map (fun l -> aux l "" |> List.flatten |> remove_last)
 
 let next_to i j n p = [
     (i - 1, j - 1);
