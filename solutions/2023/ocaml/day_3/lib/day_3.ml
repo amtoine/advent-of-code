@@ -16,6 +16,18 @@ let get_gear_positions input =
         ] |> Bool.not
     )
 
+let get_gear_positions_gold input =
+    let lines = String.split_on_char '\n' input in
+    let n = List.length lines in
+    let p = List.hd lines |> String.length in
+    List.init n Fun.id |> List.map (fun i ->
+        List.init p Fun.id |> List.map (fun j ->
+            (i, j)
+        )
+    )
+    |> List.flatten
+    |> List.filter (fun (i, j) -> (get input i j p) = '*')
+
 let rec remove_last = function
     | [] -> []
     | [_] -> []
@@ -72,4 +84,22 @@ let silver input =
         |> List.map fst
         |> List.fold_left (+) 0
 
-let gold input = String.length input
+let gold input =
+    let input = String.trim input in
+    let numbers = get_numbers input in
+    let gears = get_gear_positions input in
+    let n = List.length numbers in
+    let p = List.hd numbers |> List.length in
+    List.map (fun (i, j) ->
+        let part_numbers =
+            List.map (fun (i, j) -> List.nth (List.nth numbers i) j) (next_to i j n p)
+                |> List.filter_map Fun.id
+                |> List.map fst
+                |> List.sort_uniq (fun a b -> if a = b then 0 else if a < b then 1 else -1)
+        in
+        if (List.length part_numbers) = 2 then
+            (List.hd part_numbers) * (List.nth part_numbers 1)
+        else
+            0
+    ) gears
+        |> List.fold_left (+) 0
