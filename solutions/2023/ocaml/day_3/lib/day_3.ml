@@ -1,5 +1,12 @@
+(** get the $(i, j)$ element in a grid of width $p$ encoded as a newline-separated string *)
 let get input i j p = String.get input (i * (p + 1) + j);;
 
+(** get the position of all the gears in an $n \times p$ grid
+
+    0 through 9 are part numbers and dots are empty.
+
+    all other characters are gears, e.g. '?' or '*'.
+ *)
 let get_gear_positions input =
     let lines = String.split_on_char '\n' input in
     let n = List.length lines in
@@ -16,6 +23,7 @@ let get_gear_positions input =
         ] |> Bool.not
     )
 
+(** same as [`get_gear_positions`] but where only '*' are valid gears *)
 let get_gear_positions_gold input =
     let lines = String.split_on_char '\n' input in
     let n = List.length lines in
@@ -28,11 +36,37 @@ let get_gear_positions_gold input =
     |> List.flatten
     |> List.filter (fun (i, j) -> (get input i j p) = '*')
 
+(** remove the last element of a list *)
 let rec remove_last = function
     | [] -> []
     | [_] -> []
     | h :: t -> h :: remove_last t
 
+(** extract all part numbers from the input
+
+    the input is a string-encoded matrix of numbers (parts) and symbols (gears).
+
+    the output is a matrix of the same shape where
+    - gears have been replaced with `None`
+    - part numbers have been replaced by a $(part no, id)$ pair
+
+    e.g.
+    ```
+    ".12..34.12"
+    ```
+    is a $(1 \times 10)$ input matrix and will give
+    ```
+    [
+        None,
+        (Some 12, 0), (Some 12, 0),
+        None, None,
+        (Some 34, 1), (Some 34, 1),
+        None,
+        (Some 12, 2), (Some 12, 2)
+    ]
+    ```
+    as output => note how the two `12` have a different ID
+ *)
 let get_numbers input =
     let rec aux line curr id = match line with
         | [] -> []
@@ -51,6 +85,10 @@ let get_numbers input =
     let p = List.hd lines |> List.length in
         List.mapi (fun i l -> aux l "" (i * p) |> List.flatten |> remove_last) lines
 
+(** get the neighbours of cell $(i, j)$ in a grid of size $n \times p$
+
+    /!\ a cell next to the border will have fewer neighbours /!\
+ *)
 let next_to i j n p = [
     (i - 1, j - 1);
     (i - 1, j);
