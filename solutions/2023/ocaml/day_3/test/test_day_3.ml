@@ -7,5 +7,6 @@ let () =
     Alcotest.run "Day 3: Gear Ratios" [
         "examples", [
             "silver", `Quick, test Day_3.silver (Day_3__Fs.read_file (data_dir ^ "silver.txt")) 4361;
+            "amtoine-silver", `Quick, test Day_3.silver (Day_3__Fs.read_file (data_dir ^ "amtoine.txt")) 557705;
         ]
     ]
