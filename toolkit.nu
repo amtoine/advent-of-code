@@ -112,5 +112,7 @@ export def "init ocaml" [year: int, day: int]: nothing -> nothing {
 
         opam switch create . --deps-only --with-test --with-doc -y
         open dune-deps | lines | opam install $in -y
+
+        mkdir ("../../_data" | path join $day)
     }
 }
