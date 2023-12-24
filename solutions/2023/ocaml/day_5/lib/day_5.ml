@@ -89,9 +89,7 @@ let apply_map v map =
 
 let silver input =
   let seeds, maps = parse input in
-  List.map
-    (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps)
-    seeds
+  List.map (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps) seeds
   |> List.fold_left min max_int
 
 let gold input = String.length input
