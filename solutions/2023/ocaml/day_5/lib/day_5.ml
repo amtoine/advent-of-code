@@ -131,11 +131,11 @@ let gold input =
   List.map
     (fun (s, l) ->
       Printf.printf "(%d, %d): %!" s l;
-      let ss = List.init l (fun i -> s + i) in
+      let seeds_in_range = List.init l (fun i -> s + i) in
       let res =
         List.map
-          (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps)
-          ss
+          (fun s -> List.fold_left (fun acc m -> apply_map acc m) s maps)
+          seeds_in_range
         |> List.fold_left min max_int
       in
       Printf.printf "%d\n%!" res;
