@@ -92,13 +92,53 @@ let silver input =
   List.map (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps) seeds
   |> List.fold_left min max_int
 
+(** pair up elements of an even list *)
 let rec pair_seed_ranges = function
-| [] -> []
-| s :: l :: t -> List.append (List.init l (fun i -> s + i)) (pair_seed_ranges t)
-| _ -> failwith "list does not have an even number of elements"
+  | [] -> []
+  | s :: l :: t -> (s, l) :: pair_seed_ranges t
+  | _ -> failwith "list does not have an even number of elements"
+
+(** explode the range b -> x with modulus m
+
+    # Example
+    ```ocaml
+    explode 12 24 5
+    ```
+    will give
+    ```
+    [(12, 5); (36, 5); (60, 5); (84, 5); (89, 2)]
+    ```
+    i.e. smaller chunks
+ *)
+let explode b x m =
+  let exploded = List.init (x / m) (fun i -> (b + (m * i), m)) in
+  let tail =
+    if x mod m <> 0 then
+      [ ((List.nth exploded (List.length exploded - 1) |> fst) + m, x mod m) ]
+    else []
+  in
+  List.append exploded tail
 
 let gold input =
   let seeds, maps = parse input in
-  let seeds = pair_seed_ranges seeds in
-  List.map (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps) seeds
+  let seeds =
+    pair_seed_ranges seeds
+    |> List.map (fun (s, l) ->
+           (* if the range is too big, we explode it *)
+           if l > 10_000_000 then explode s l 1_000_000 else [ (s, l) ])
+    |> List.flatten
+  in
+  List.map
+    (fun (s, l) ->
+      Printf.printf "(%d, %d): %!" s l;
+      let ss = List.init l (fun i -> s + i) in
+      let res =
+        List.map
+          (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps)
+          ss
+        |> List.fold_left min max_int
+      in
+      Printf.printf "%d\n%!" res;
+      res)
+    seeds
   |> List.fold_left min max_int
