@@ -114,3 +114,14 @@ export def "init ocaml" [year: int, day: int]: nothing -> nothing {
 
     mkdir ("data" | path join ($year | into string) $day)
 }
+
+export def "run ocaml" [code: closure, --year: int]: nothing -> nothing {
+    for day in (ls ("solutions" | path join ($year | into string) "ocaml" "*") | get name) {
+        do {
+            cd $day
+            print $day
+            overlay use ocaml.nu
+            try { do $code }
+        }
+    }
+}
