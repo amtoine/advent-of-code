@@ -92,4 +92,13 @@ let silver input =
   List.map (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps) seeds
   |> List.fold_left min max_int
 
-let gold input = String.length input
+let rec pair_seed_ranges = function
+| [] -> []
+| s :: l :: t -> List.append (List.init l (fun i -> s + i)) (pair_seed_ranges t)
+| _ -> failwith "list does not have an even number of elements"
+
+let gold input =
+  let seeds, maps = parse input in
+  let seeds = pair_seed_ranges seeds in
+  List.map (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps) seeds
+  |> List.fold_left min max_int
