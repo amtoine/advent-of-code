@@ -8,21 +8,21 @@ let () =
         [
           ( "silver",
             `Quick,
-            test Day_4.silver (Day_4__Fs.read_file (data_dir ^ "silver.txt")) 13
+            test Day_4.silver (Day_4__Fs.read_file (data_dir ^ "silver/input.txt")) 13
           );
           ( "amtoine-silver",
             `Quick,
             test Day_4.silver
-              (Day_4__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_4__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               28750 );
           ( "gold",
             `Quick,
-            test Day_4.gold (Day_4__Fs.read_file (data_dir ^ "silver.txt")) 30
+            test Day_4.gold (Day_4__Fs.read_file (data_dir ^ "silver/input.txt")) 30
           );
           ( "amtoine-gold",
             `Quick,
             test Day_4.gold
-              (Day_4__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_4__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               10212704 );
         ] );
     ]

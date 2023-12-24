@@ -9,22 +9,22 @@ let () =
           ( "silver",
             `Quick,
             test Day_3.silver
-              (Day_3__Fs.read_file (data_dir ^ "silver.txt"))
+              (Day_3__Fs.read_file (data_dir ^ "silver/input.txt"))
               4361 );
           ( "amtoine-silver",
             `Quick,
             test Day_3.silver
-              (Day_3__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_3__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               557705 );
           ( "gold",
             `Quick,
             test Day_3.gold
-              (Day_3__Fs.read_file (data_dir ^ "silver.txt"))
+              (Day_3__Fs.read_file (data_dir ^ "silver/input.txt"))
               467835 );
           ( "amtoine-gold",
             `Quick,
             test Day_3.gold
-              (Day_3__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_3__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               84266818 );
         ] );
     ]

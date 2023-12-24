@@ -9,20 +9,20 @@ let () =
           ( "silver",
             `Quick,
             test Day_1.silver
-              (Day_1__Fs.read_file (data_dir ^ "silver.txt"))
+              (Day_1__Fs.read_file (data_dir ^ "silver/input.txt"))
               142 );
           ( "gold",
             `Quick,
-            test Day_1.gold (Day_1__Fs.read_file (data_dir ^ "gold.txt")) 281 );
+            test Day_1.gold (Day_1__Fs.read_file (data_dir ^ "gold/input.txt")) 281 );
           ( "amtoine-silver",
             `Quick,
             test Day_1.silver
-              (Day_1__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_1__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               53974 );
           ( "amtoine-gold",
             `Quick,
             test Day_1.gold
-              (Day_1__Fs.read_file (data_dir ^ "amtoine.txt"))
+              (Day_1__Fs.read_file (data_dir ^ "amtoine/input.txt"))
               52840 );
         ] );
     ]
