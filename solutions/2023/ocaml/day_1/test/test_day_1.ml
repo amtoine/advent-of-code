@@ -1,34 +1,22 @@
-let test f input expected () = Alcotest.(check int) "same" expected (f input)
 let data_dir = Sys.getcwd () ^ "/../../../../../_data/day_1/"
+
+let test name f input expected =
+  let input = Day_1__Fs.read_file (data_dir ^ input) in
+  let expected =
+    Day_1__Fs.read_file (data_dir ^ expected) |> String.trim |> int_of_string
+  in
+  (name, `Quick, fun () -> Alcotest.(check int) "same" expected (f input))
 
 let () =
   Alcotest.run "Day 1: Trebuchet?!"
     [
       ( "examples",
         [
-          ( "silver",
-            `Quick,
-            test Day_1.silver
-              (Day_1__Fs.read_file (data_dir ^ "silver/input.txt"))
-              (Day_1__Fs.read_file (data_dir ^ "silver/expected.txt")
-              |> String.trim |> int_of_string) );
-          ( "gold",
-            `Quick,
-            test Day_1.gold
-              (Day_1__Fs.read_file (data_dir ^ "gold/input.txt"))
-              (Day_1__Fs.read_file (data_dir ^ "gold/expected.txt")
-              |> String.trim |> int_of_string) );
-          ( "amtoine-silver",
-            `Quick,
-            test Day_1.silver
-              (Day_1__Fs.read_file (data_dir ^ "amtoine/input.txt"))
-              (Day_1__Fs.read_file (data_dir ^ "amtoine/silver-expected.txt")
-              |> String.trim |> int_of_string) );
-          ( "amtoine-gold",
-            `Quick,
-            test Day_1.gold
-              (Day_1__Fs.read_file (data_dir ^ "amtoine/input.txt"))
-              (Day_1__Fs.read_file (data_dir ^ "amtoine/gold-expected.txt")
-              |> String.trim |> int_of_string) );
+          test "silver" Day_1.silver "silver/input.txt" "silver/expected.txt";
+          test "gold" Day_1.gold "gold/input.txt" "gold/expected.txt";
+          test "amtoine-silver" Day_1.silver "amtoine/input.txt"
+            "amtoine/silver-expected.txt";
+          test "amtoine-gold" Day_1.gold "amtoine/input.txt"
+            "amtoine/gold-expected.txt";
         ] );
     ]
