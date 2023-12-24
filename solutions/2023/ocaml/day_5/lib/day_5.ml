@@ -1,6 +1,6 @@
 let split_list_at v l =
   let rec aux v acc = function
-    | [] -> []
+    | [] -> [ acc ]
     | h :: t ->
         if h = v then acc :: aux v [] t else aux v (List.append acc [ h ]) t
   in
