@@ -1,5 +1,5 @@
 let () =
-  let input_file = Sys.getcwd () ^ "/../../_data/day_x/" ^ Sys.argv.(2) in
+  let input_file = Sys.getcwd () ^ "/../../../../data/yyyy/day_x/" ^ Sys.argv.(2) in
   let input = Day_x__Fs.read_file input_file |> String.trim in
   let res =
     match Sys.argv.(1) with

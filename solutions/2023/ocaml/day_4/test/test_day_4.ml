@@ -1,4 +1,4 @@
-let data_dir = Sys.getcwd () ^ "/../../../../../_data/day_4/"
+let data_dir = Sys.getcwd () ^ "/../../../../../../../data/2023/day_4/"
 
 let test name f input expected =
   let input = Day_4__Fs.read_file (data_dir ^ input) |> String.trim in

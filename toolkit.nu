@@ -109,7 +109,8 @@ export def "init ocaml" [year: int, day: int]: nothing -> nothing {
 
         ^sd Day_x ($day | str capitalize) **/*
         ^sd day_x $day **/*
-
-        mkdir ("../../_data" | path join $day)
+        ^sd yyyy $year **/*
     }
+
+    mkdir ("data" | path join ($year | into string) $day)
 }
