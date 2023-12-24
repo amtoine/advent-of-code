@@ -63,7 +63,7 @@ type map = { dst : int; src : int; len : int }
     *)
 let parse input =
   let cleaned =
-    String.trim input |> String.split_on_char '\n'
+    String.split_on_char '\n' input
     |> List.filter (fun l -> Bool.not @@ String.ends_with ~suffix:"map:" l)
   in
   let seeds =

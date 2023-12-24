@@ -105,7 +105,6 @@ let next_to i j n p =
   |> List.filter (fun (i, j) -> i >= 0 && i < n && j >= 0 && j < p)
 
 let silver input =
-  let input = String.trim input in
   let numbers = get_numbers input in
   let gears = get_gear_positions input in
   let n = List.length numbers in
@@ -119,7 +118,6 @@ let silver input =
   |> List.map fst |> List.fold_left ( + ) 0
 
 let gold input =
-  let input = String.trim input in
   let numbers = get_numbers input in
   let gears = get_gear_positions input in
   let n = List.length numbers in

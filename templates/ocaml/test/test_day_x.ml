@@ -1,7 +1,7 @@
 let data_dir = Sys.getcwd () ^ "/../../../../../_data/day_x/"
 
 let test name f input expected =
-  let input = Day_x__Fs.read_file (data_dir ^ input) in
+  let input = Day_x__Fs.read_file (data_dir ^ input) |> String.trim in
   let expected =
     Day_x__Fs.read_file (data_dir ^ expected) |> String.trim |> int_of_string
   in

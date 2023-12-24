@@ -18,7 +18,7 @@ let parse_card card =
 let rec pow x p = if p = 0 then 1 else x * pow x (p - 1)
 
 let silver input =
-  let lines = String.trim input |> String.split_on_char '\n' in
+  let lines = String.split_on_char '\n' input in
   List.map
     (fun l ->
       let w, u = parse_card l in
@@ -29,7 +29,7 @@ let silver input =
 
 let gold input =
   let wins =
-    String.trim input |> String.split_on_char '\n'
+    String.split_on_char '\n' input
     |> List.map (fun l ->
            let w, u = parse_card l in
            List.filter (fun x -> List.mem x w) u)
