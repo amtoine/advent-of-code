@@ -8,21 +8,27 @@ let () =
         [
           ( "silver",
             `Quick,
-            test Day_5.silver (Day_5__Fs.read_file (data_dir ^ "silver/input.txt")) 35
-          );
+            test Day_5.silver
+              (Day_5__Fs.read_file (data_dir ^ "silver/input.txt"))
+              (Day_5__Fs.read_file (data_dir ^ "silver/expected.txt")
+              |> String.trim |> int_of_string) );
           ( "amtoine-silver",
             `Quick,
             test Day_5.silver
               (Day_5__Fs.read_file (data_dir ^ "amtoine/input.txt"))
-              199602917 );
+              (Day_5__Fs.read_file (data_dir ^ "amtoine/silver-expected.txt")
+              |> String.trim |> int_of_string) );
           ( "gold",
             `Quick,
-            test Day_5.gold (Day_5__Fs.read_file (data_dir ^ "gold/input.txt")) 46
-          );
+            test Day_5.gold
+              (Day_5__Fs.read_file (data_dir ^ "gold/input.txt"))
+              (Day_5__Fs.read_file (data_dir ^ "gold/expected.txt")
+              |> String.trim |> int_of_string) );
           (* ( "amtoine-gold", *)
           (*   `Quick, *)
           (*   test Day_5.gold *)
           (*     (Day_5__Fs.read_file (data_dir ^ "amtoine/input.txt")) *)
-          (*     2254686 ); *)
+          (*     (Day_5__Fs.read_file (data_dir ^ "amtoine/gold-expected.txt") *)
+          (*     |> String.trim |> int_of_string) ); *)
         ] );
     ]
