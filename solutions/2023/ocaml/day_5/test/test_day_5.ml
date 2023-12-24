@@ -19,5 +19,10 @@ let () =
             `Quick,
             test Day_5.gold (Day_5__Fs.read_file (data_dir ^ "silver.txt")) 46
           );
+          (* ( "amtoine-gold", *)
+          (*   `Quick, *)
+          (*   test Day_5.gold *)
+          (*     (Day_5__Fs.read_file (data_dir ^ "amtoine.txt")) *)
+          (*     2254686 ); *)
         ] );
     ]
