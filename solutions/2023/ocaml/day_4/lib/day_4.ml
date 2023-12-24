@@ -27,4 +27,19 @@ let silver input =
     lines
   |> List.fold_left ( + ) 0
 
-let gold input = String.length input
+let gold input =
+  let wins =
+    String.trim input |> String.split_on_char '\n'
+    |> List.map (fun l ->
+           let w, u = parse_card l in
+           List.filter (fun x -> List.mem x w) u)
+    |> List.map List.length
+  in
+  let n = List.length wins in
+  let cards : int array = Array.make n 1 in
+  List.iteri
+    (fun i w ->
+      List.init w Fun.id
+      |> List.iter (fun j -> cards.(i + j + 1) <- cards.(i + j + 1) + cards.(i)))
+    wins;
+  Array.fold_left ( + ) 0 cards
