@@ -28,5 +28,17 @@ let parse input =
   in
   (seeds, maps)
 
-let silver input = String.length input
+let apply_map v map =
+  match map |> List.filter (fun x -> v >= x.src && v < x.src + x.len) with
+  | [] -> v
+  | [ m ] -> m.dst + (v - m.src)
+  | _ -> failwith "too many matching maps"
+
+let silver input =
+  let seeds, maps = parse input in
+  List.map
+    (fun s -> List.fold_left (fun acc x -> apply_map acc x) s maps)
+    seeds
+  |> List.fold_left min max_int
+
 let gold input = String.length input
