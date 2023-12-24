@@ -38,11 +38,12 @@ let power draw =
   blue * red * green
 
 let silver input =
-  String.split_on_char '\n' input |> List.map parse
+  String.split_on_char '\n' input
+  |> List.map parse
   |> List.filter_map (fun x ->
          if List.exists invalid_draw (snd x) then None else Some (fst x))
   |> List.fold_left ( + ) 0
 
 let gold input =
-  String.split_on_char '\n' input |> List.map parse
-  |> List.map snd |> List.map power |> List.fold_left ( + ) 0
+  String.split_on_char '\n' input
+  |> List.map parse |> List.map snd |> List.map power |> List.fold_left ( + ) 0
