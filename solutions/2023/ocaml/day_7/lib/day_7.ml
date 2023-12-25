@@ -69,16 +69,17 @@ let hand_type_gold hand =
     |> List.sort (fun a b -> card_power b - card_power a)
     |> count_uniq_sorted
     |> List.filter (fun (_, c) -> c > 0)
-    |> List.sort (fun (_, c1) (_, c2) -> c2 - c1)
+    |> List.sort (fun (_, n1) (_, n2) -> n2 - n1)
   in
-  let j = List.filter (fun (c, _) -> c = 'J') h in
-  let j = if List.is_empty j then 0 else List.hd j |> snd in
-  let h = List.filter (fun (c, _) -> c <> 'J') h in
+  let js = List.filter (fun (c, _) -> c = 'J') h in
+  let nb_js = if List.is_empty js then 0 else List.hd js |> snd in
+  let not_a_j = List.filter (fun (c, _) -> c <> 'J') h in
   let x =
-    if j = 0 then h
+    if nb_js = 0 then not_a_j
+    else if List.is_empty not_a_j then [ ('J', 5) ]
     else
-      let c, n = List.hd h in
-      (c, n + j) :: List.tl h
+      let c, n = List.hd not_a_j in
+      (c, n + nb_js) :: List.tl not_a_j
   in
   let ty =
     x |> List.filter_map (fun (_, n) -> if n >= 2 then Some n else None)
