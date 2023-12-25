@@ -8,7 +8,7 @@ let test name f input expected =
   (name, `Quick, fun () -> Alcotest.(check int) "same" expected (f input))
 
 let () =
-  Alcotest.run xxx
+  Alcotest.run "Day 7: Camel Cards"
     [
       ( "examples",
         [
