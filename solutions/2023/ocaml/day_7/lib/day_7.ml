@@ -75,8 +75,7 @@ let hand_type_gold hand =
   let nb_js = if List.is_empty js then 0 else List.hd js |> snd in
   let not_a_j = List.filter (fun (c, _) -> c <> 'J') h in
   let x =
-    if nb_js = 0 then not_a_j
-    else if List.is_empty not_a_j then [ ('J', 5) ]
+    if List.is_empty not_a_j then [ ('J', 5) ]
     else
       let c, n = List.hd not_a_j in
       (c, n + nb_js) :: List.tl not_a_j
