@@ -1,0 +1,6 @@
+alcotest
+dune
+ocaml-lsp-server
+odoc
+ocamlformat
+utop
