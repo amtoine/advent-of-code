@@ -31,19 +31,26 @@ let hand_power hand =
   in
   aux hand (List.length hand - 1)
 
-let rec count_uniq_sorted acc curr n l =
-  match l with
-  | [] -> (curr, n) :: acc
-  | h :: t ->
-      let new_acc, new_curr, new_n =
-        if h <> curr then ((curr, n) :: acc, h, 1) else (acc, curr, n + 1)
-      in
-      count_uniq_sorted new_acc new_curr new_n t
+(** uniq a list and count its elements
+
+    the input list needs to be sorted.
+ *)
+let count_uniq_sorted l =
+  let rec aux acc curr n l =
+    match l with
+    | [] -> (curr, n) :: acc
+    | h :: t ->
+        let new_acc, new_curr, new_n =
+          if h <> curr then ((curr, n) :: acc, h, 1) else (acc, curr, n + 1)
+        in
+        aux new_acc new_curr new_n t
+  in
+  aux [] ' ' 0 l
 
 let hand_type hand =
   let ty =
     List.sort (fun a b -> card_power b - card_power a) hand
-    |> count_uniq_sorted [] ' ' 0
+    |> count_uniq_sorted
     |> List.filter_map (fun (_, n) -> if n >= 2 then Some n else None)
   in
   match ty with
