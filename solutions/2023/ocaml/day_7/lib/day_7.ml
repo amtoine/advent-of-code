@@ -63,6 +63,36 @@ let hand_type hand =
   | [ 5 ] -> 6
   | _ -> failwith "invalid hand"
 
+let hand_type_gold hand =
+  let h =
+    hand
+    |> List.sort (fun a b -> card_power b - card_power a)
+    |> count_uniq_sorted
+    |> List.filter (fun (_, c) -> c > 0)
+    |> List.sort (fun (_, c1) (_, c2) -> c2 - c1)
+  in
+  let j = List.filter (fun (c, _) -> c = 'J') h in
+  let j = if List.is_empty j then 0 else List.hd j |> snd in
+  let h = List.filter (fun (c, _) -> c <> 'J') h in
+  let x =
+    if j = 0 then h
+    else
+      let c, n = List.hd h in
+      (c, n + j) :: List.tl h
+  in
+  let ty =
+    x |> List.filter_map (fun (_, n) -> if n >= 2 then Some n else None)
+  in
+  match ty with
+  | [] -> 0
+  | [ 2 ] -> 1
+  | [ 2; 2 ] -> 2
+  | [ 3 ] -> 3
+  | [ 2; 3 ] | [ 3; 2 ] -> 4
+  | [ 4 ] -> 5
+  | [ 5 ] -> 6
+  | _ -> failwith "invalid hand"
+
 let silver input =
   parse input
   |> List.map (fun (h, v) -> (hand_type h, hand_power h, v))
@@ -76,4 +106,15 @@ let silver input =
   |> List.mapi (fun i (_, _, v) -> v * (i + 1))
   |> List.fold_left ( + ) 0
 
-let gold input = String.length input
+let gold input =
+  parse input
+  |> List.map (fun (h, v) -> (hand_type_gold h, hand_power h, v))
+  |> List.sort (fun (ty_1, pw_1, _) (ty_2, pw_2, _) ->
+         if ty_2 > ty_1 then 1
+         else if ty_2 < ty_1 then -1
+         else if pw_2 > pw_1 then 1
+         else if pw_2 < pw_1 then -1
+         else 0)
+  |> List.rev
+  |> List.mapi (fun i (_, _, v) -> v * (i + 1))
+  |> List.fold_left ( + ) 0
