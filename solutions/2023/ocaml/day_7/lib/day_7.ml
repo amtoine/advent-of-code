@@ -16,6 +16,16 @@ let card_power c =
   | 'A' -> 13
   | _ -> failwith ("invalid card '" ^ String.make 1 c ^ "'")
 
+let card_power_gold c =
+  match c with
+  | 'J' -> 1
+  | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' -> int_of_char c - 48
+  | 'T' -> 10
+  | 'Q' -> 11
+  | 'K' -> 12
+  | 'A' -> 13
+  | _ -> failwith ("invalid card '" ^ String.make 1 c ^ "'")
+
 let rec pow x n = if n = 0 then 1 else x * pow x (n - 1)
 
 (** compute the raw power of a hand, without taking it's type into account
@@ -28,6 +38,12 @@ let rec pow x n = if n = 0 then 1 else x * pow x (n - 1)
 let hand_power hand =
   let rec aux u n =
     match u with [] -> 0 | h :: t -> (card_power h * pow 13 n) + aux t (n - 1)
+  in
+  aux hand (List.length hand - 1)
+
+let hand_power_gold hand =
+  let rec aux u n =
+    match u with [] -> 0 | h :: t -> (card_power_gold h * pow 13 n) + aux t (n - 1)
   in
   aux hand (List.length hand - 1)
 
@@ -66,7 +82,7 @@ let hand_type hand =
 let hand_type_gold hand =
   let h =
     hand
-    |> List.sort (fun a b -> card_power b - card_power a)
+    |> List.sort (fun a b -> card_power_gold b - card_power_gold a)
     |> count_uniq_sorted
     |> List.filter (fun (_, c) -> c > 0)
     |> List.sort (fun (_, n1) (_, n2) -> n2 - n1)
@@ -108,7 +124,7 @@ let silver input =
 
 let gold input =
   parse input
-  |> List.map (fun (h, v) -> (hand_type_gold h, hand_power h, v))
+  |> List.map (fun (h, v) -> (hand_type_gold h, hand_power_gold h, v))
   |> List.sort (fun (ty_1, pw_1, _) (ty_2, pw_2, _) ->
          if ty_2 > ty_1 then 1
          else if ty_2 < ty_1 then -1
