@@ -1,0 +1,3 @@
+(test
+ (name test_day_9)
+ (libraries alcotest day_9))
