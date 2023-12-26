@@ -21,15 +21,18 @@ let move instructions network pos =
   in
   aux pos 0
 
+let network_to_ht network =
+  let ht = Hashtbl.create (List.length network) in
+  let () = List.iter (fun (k, l, r) -> Hashtbl.add ht k (l, r)) network in
+  ht
+
 let move_gold instructions network pos =
   let rec aux pos n =
     if String.ends_with ~suffix:"Z" pos then n
     else
       let i = n mod String.length instructions |> String.get instructions in
       let next =
-        let _, left, right =
-          List.filter (fun (x, _, _) -> x = pos) network |> List.hd
-        in
+        let left, right = Hashtbl.find network pos in
         if i = 'L' then left else right
       in
       aux next (n + 1)
@@ -52,5 +55,6 @@ let gold input =
     |> List.filter (fun (x, _, _) -> String.ends_with ~suffix:"A" x)
     |> List.map (fun (x, _, _) -> x)
   in
+  let network = network_to_ht network in
   let periods = List.map (fun p -> move_gold instructions network p) pos in
   List.fold_left lcm 1 periods
