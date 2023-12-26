@@ -23,21 +23,23 @@ let move instructions network pos =
 
 let move_gold instructions network pos =
   let rec aux pos n =
-    if List.for_all (fun p -> String.ends_with ~suffix:"Z" p) pos then n
+    if String.ends_with ~suffix:"Z" pos then n
     else
       let i = n mod String.length instructions |> String.get instructions in
       let next =
-        List.map
-          (fun p ->
-            let _, left, right =
-              List.filter (fun (x, _, _) -> x = p) network |> List.hd
-            in
-            if i = 'L' then left else right)
-          pos
+        let _, left, right =
+          List.filter (fun (x, _, _) -> x = pos) network |> List.hd
+        in
+        if i = 'L' then left else right
       in
       aux next (n + 1)
   in
   aux pos 0
+
+let rec gcd u v = if v <> 0 then gcd v (u mod v) else abs u
+
+let lcm m n =
+  match (m, n) with 0, _ | _, 0 -> 0 | m, n -> abs (m * n) / gcd m n
 
 let silver input =
   let instructions, network = parse input in
@@ -50,4 +52,5 @@ let gold input =
     |> List.filter (fun (x, _, _) -> String.ends_with ~suffix:"A" x)
     |> List.map (fun (x, _, _) -> x)
   in
-  move_gold instructions network pos
+  let periods = List.map (fun p -> move_gold instructions network p) pos in
+  List.fold_left lcm 1 periods
