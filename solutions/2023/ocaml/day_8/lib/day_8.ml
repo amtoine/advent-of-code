@@ -21,8 +21,33 @@ let move instructions network pos =
   in
   aux instructions network pos 0
 
+let move_gold instructions network pos =
+  let rec aux instructions network pos n =
+    if List.for_all (fun p -> String.ends_with ~suffix:"Z" p) pos then n
+    else
+      let i = n mod String.length instructions |> String.get instructions in
+      let next =
+        List.map
+          (fun p ->
+            let _, left, right =
+              List.filter (fun (x, _, _) -> x = p) network |> List.hd
+            in
+            if i = 'L' then left else right)
+          pos
+      in
+      aux instructions network next (n + 1)
+  in
+  aux instructions network pos 0
+
 let silver input =
   let instructions, network = parse input in
   move instructions network "AAA"
 
-let gold input = String.length input
+let gold input =
+  let instructions, network = parse input in
+  let pos =
+    network
+    |> List.filter (fun (x, _, _) -> String.ends_with ~suffix:"A" x)
+    |> List.map (fun (x, _, _) -> x)
+  in
+  move_gold instructions network pos
