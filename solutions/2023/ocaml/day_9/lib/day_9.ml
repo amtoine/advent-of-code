@@ -48,8 +48,33 @@ let next s =
   let last = aux [] s in
   List.fold_left ( + ) 0 last
 
+(** [previous s] is [n], where [n] is the element that _comes before_ in the sequence [s]
+
+    this is the same idea as in [next s] but backwards:
+    - first elements of each stage are considere instead of the last ones
+    - the last sum needs to alternate + and -
+*)
+let previous s =
+  let rec aux acc s =
+    if List.fold_left ( + ) 0 s = 0 then acc
+    else
+      let new_acc = List.hd s :: acc in
+      let new_s =
+        List.map2
+          (fun a b -> b - a)
+          (List.rev @@ List.tl @@ List.rev s)
+          (List.tl s)
+      in
+      aux new_acc new_s
+  in
+  let last = aux [] s in
+  List.fold_left ( + ) 0
+    (last |> List.rev |> List.mapi (fun i x -> (1 - (i mod 2 * 2)) * x))
+
 let silver input =
   let sequences = parse input in
   List.fold_left ( + ) 0 (List.map next sequences)
 
-let gold input = String.length input
+let gold input =
+  let sequences = parse input in
+  List.fold_left ( + ) 0 (List.map previous sequences)
