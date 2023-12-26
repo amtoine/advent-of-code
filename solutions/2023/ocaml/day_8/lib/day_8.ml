@@ -9,7 +9,7 @@ let parse input =
   (instructions, network)
 
 let move instructions network pos =
-  let rec aux instructions network pos n =
+  let rec aux pos n =
     if pos = "ZZZ" then n
     else
       let i = n mod String.length instructions in
@@ -17,12 +17,12 @@ let move instructions network pos =
         List.filter (fun (x, _, _) -> x = pos) network |> List.hd
       in
       let next = if String.get instructions i = 'L' then left else right in
-      aux instructions network next (n + 1)
+      aux next (n + 1)
   in
-  aux instructions network pos 0
+  aux pos 0
 
 let move_gold instructions network pos =
-  let rec aux instructions network pos n =
+  let rec aux pos n =
     if List.for_all (fun p -> String.ends_with ~suffix:"Z" p) pos then n
     else
       let i = n mod String.length instructions |> String.get instructions in
@@ -35,9 +35,9 @@ let move_gold instructions network pos =
             if i = 'L' then left else right)
           pos
       in
-      aux instructions network next (n + 1)
+      aux next (n + 1)
   in
-  aux instructions network pos 0
+  aux pos 0
 
 let silver input =
   let instructions, network = parse input in
