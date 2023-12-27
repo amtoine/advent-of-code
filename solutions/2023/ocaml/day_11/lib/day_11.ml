@@ -35,14 +35,14 @@ let get universe i j = List.nth (List.nth universe.points j) i
     empty rows and [v] is the list of indices of the empty columns in the
     universe. *)
 let empty_lines universe =
-  let vertical =
+  let horizontal =
     List.init universe.p (fun j ->
         List.init universe.n (fun i -> get universe i j)
         |> List.for_all (fun p -> p = Space))
     |> List.mapi (fun i b -> if b then Some i else None)
     |> List.filter_map Fun.id
   in
-  let horizontal =
+  let vertical =
     List.init universe.n (fun i ->
         List.init universe.p (fun j -> get universe i j)
         |> List.for_all (fun p -> p = Space))
@@ -63,15 +63,15 @@ let get_galaxies universe =
 let distance (i1, j1) (i2, j2) = abs (i2 - i1) + abs (j2 - j1)
 
 let between (i1, j1) (i2, j2) h v =
-  let h =
-    List.filter_map
-      (fun j -> if min j1 j2 < j && j < max j1 j2 then Some j else None)
-      h
-  in
   let v =
     List.filter_map
-      (fun i -> if min i1 i2 < i && i < max i1 i2 then Some i else None)
+      (fun j -> if min j1 j2 < j && j < max j1 j2 then Some j else None)
       v
+  in
+  let h =
+    List.filter_map
+      (fun i -> if min i1 i2 < i && i < max i1 i2 then Some i else None)
+      h
   in
   (h |> List.length, v |> List.length)
 
