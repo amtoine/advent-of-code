@@ -13,7 +13,8 @@ let () =
       ( "examples",
         [
           test "silver" Day_11.silver "silver/input.txt" "silver/expected.txt";
-          (* test "gold" Day_11.gold "gold/input.txt" "gold/expected.txt"; *)
+          test "gold-1" Day_11.gold_1 "silver/input.txt" "gold/expected.1.txt";
+          test "gold-2" Day_11.gold_2 "silver/input.txt" "gold/expected.2.txt";
           test "amtoine-silver" Day_11.silver "amtoine/input.txt"
             "amtoine/silver-expected.txt";
           (* test "amtoine-gold" Day_11.gold "amtoine/input.txt" *)

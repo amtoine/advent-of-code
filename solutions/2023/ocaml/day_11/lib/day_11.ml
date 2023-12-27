@@ -96,4 +96,6 @@ let silver_gold input factor =
   x / 2
 
 let silver input = silver_gold input 2
+let gold_1 input = silver_gold input 10
+let gold_2 input = silver_gold input 100
 let gold input = silver_gold input 1_000_000
