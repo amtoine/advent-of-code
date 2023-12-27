@@ -61,7 +61,7 @@ let rec dilate n = function
 
 let expand universe factor =
   let h, v = empty_lines universe in
-  let h, v = (dilate factor h, dilate factor v) in
+  let h, v = (dilate (factor - 1) h, dilate (factor - 1) v) in
   let empty_row = List.init universe.p (fun _ -> Space) in
   let points =
     List.fold_left
@@ -95,5 +95,5 @@ let silver_gold input factor =
   in
   x / 2
 
-let silver input = silver_gold input 1
+let silver input = silver_gold input 2
 let gold input = silver_gold input 1_000_000
