@@ -51,27 +51,6 @@ let empty_lines universe =
   in
   (horizontal, vertical)
 
-let rec insert x i = function
-  | [] -> if i = 0 then [ x ] else failwith "i larger than size of list"
-  | h :: t -> if i = 0 then h :: x :: t else h :: insert x (i - 1) t
-
-let rec dilate n = function
-  | [] -> []
-  | h :: t -> List.init n (fun _ -> h) @ dilate n t
-
-let expand universe factor =
-  let h, v = empty_lines universe in
-  let h, v = (dilate (factor - 1) h, dilate (factor - 1) v) in
-  let empty_row = List.init universe.p (fun _ -> Space) in
-  let points =
-    List.fold_left
-      (fun acc i -> insert empty_row i acc)
-      universe.points (List.rev v)
-    |> List.map (fun r ->
-           List.fold_left (fun acc i -> insert Space i acc) r (List.rev h))
-  in
-  { n = universe.n + List.length v; p = universe.p + List.length h; points }
-
 let get_galaxies universe =
   universe.points
   |> List.mapi (fun i r ->
@@ -83,13 +62,34 @@ let get_galaxies universe =
 
 let distance (i1, j1) (i2, j2) = abs (i2 - i1) + abs (j2 - j1)
 
+let between (i1, j1) (i2, j2) h v =
+  let h =
+    List.filter_map
+      (fun j -> if min j1 j2 < j && j < max j1 j2 then Some j else None)
+      h
+  in
+  let v =
+    List.filter_map
+      (fun i -> if min i1 i2 < i && i < max i1 i2 then Some i else None)
+      v
+  in
+  (h |> List.length, v |> List.length)
+
 let silver_gold input factor =
-  let universe = expand (parse input) factor in
+  let universe = parse input in
+  let h, v = empty_lines universe in
   let galaxies = get_galaxies universe in
   let x =
     List.mapi
       (fun i gi ->
-        List.mapi (fun j gj -> if i = j then 0 else distance gi gj) galaxies)
+        List.mapi
+          (fun j gj ->
+            if i = j then 0
+            else
+              let d = distance gi gj in
+              let h, v = between gi gj h v in
+              d + ((factor - 1) * (h + v)))
+          galaxies)
       galaxies
     |> List.flatten |> List.fold_left ( + ) 0
   in
