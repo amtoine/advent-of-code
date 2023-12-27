@@ -29,20 +29,20 @@ let parse input =
   let n, p = (List.length points, List.hd points |> List.length) in
   { n; p; points }
 
-let get universe i j = List.nth (List.nth universe.points j) i
+let get universe i j = List.nth (List.nth universe.points i) j
 
 (** [empty_lines universe] is [(h, v)] where [h] is the list of indices of the
     empty rows and [v] is the list of indices of the empty columns in the
     universe. *)
 let empty_lines universe =
-  let horizontal =
+  let vertical =
     List.init universe.p (fun j ->
         List.init universe.n (fun i -> get universe i j)
         |> List.for_all (fun p -> p = Space))
     |> List.mapi (fun i b -> if b then Some i else None)
     |> List.filter_map Fun.id
   in
-  let vertical =
+  let horizontal =
     List.init universe.n (fun i ->
         List.init universe.p (fun j -> get universe i j)
         |> List.for_all (fun p -> p = Space))
