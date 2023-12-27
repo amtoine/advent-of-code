@@ -57,9 +57,10 @@ let rec insert x i = function
 
 let expand universe =
   let h, v = empty_lines universe in
+  let empty_row = List.init universe.p (fun _ -> Space) in
   let points =
     List.fold_left
-      (fun acc i -> insert (List.init universe.p (fun _ -> Space)) i acc)
+      (fun acc i -> insert empty_row i acc)
       universe.points (List.rev v)
     |> List.map (fun r ->
            List.fold_left (fun acc i -> insert Space i acc) r (List.rev h))
