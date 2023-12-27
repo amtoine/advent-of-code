@@ -17,7 +17,7 @@ let () =
           test "gold-2" Day_11.gold_2 "silver/input.txt" "gold/expected.2.txt";
           test "amtoine-silver" Day_11.silver "amtoine/input.txt"
             "amtoine/silver-expected.txt";
-          (* test "amtoine-gold" Day_11.gold "amtoine/input.txt" *)
-          (*   "amtoine/gold-expected.txt"; *)
+          test "amtoine-gold" Day_11.gold "amtoine/input.txt"
+            "amtoine/gold-expected.txt";
         ] );
     ]
