@@ -55,8 +55,13 @@ let rec insert x i = function
   | [] -> if i = 0 then [ x ] else failwith "i larger than size of list"
   | h :: t -> if i = 0 then h :: x :: t else h :: insert x (i - 1) t
 
-let expand universe =
+let rec dilate n = function
+  | [] -> []
+  | h :: t -> List.init n (fun _ -> h) @ dilate n t
+
+let expand universe factor =
   let h, v = empty_lines universe in
+  let h, v = (dilate factor h, dilate factor v) in
   let empty_row = List.init universe.p (fun _ -> Space) in
   let points =
     List.fold_left
@@ -78,8 +83,8 @@ let get_galaxies universe =
 
 let distance (i1, j1) (i2, j2) = abs (i2 - i1) + abs (j2 - j1)
 
-let silver input =
-  let universe = expand @@ parse input in
+let silver_gold input factor =
+  let universe = expand (parse input) factor in
   let galaxies = get_galaxies universe in
   let x =
     List.mapi
@@ -90,4 +95,5 @@ let silver input =
   in
   x / 2
 
-let gold input = String.length input
+let silver input = silver_gold input 1
+let gold input = silver_gold input 1_000_000
