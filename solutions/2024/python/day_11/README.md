@@ -7,7 +7,7 @@ let res = python solutions/2024/python/day_11/main.py
 ```
 
 plot the results with [GPLT](https://gitlab.isae-supaero.fr/a.stevan/gplt)
-```
+```nushell
 $res
     | group-by fn --to-table
     | update items { rename --column { b: x, t: y } }
