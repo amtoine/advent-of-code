@@ -7,7 +7,7 @@ let login = {
     cookie: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     mail: "xxxx@xxx.xxx"
 }
-let inputs_and_answers = 1..7 | nushell pull --login $login
+let inputs_and_answers = <days> | nushell pull --login $login
 let benchmarks = $inputs_and_answers | nushell run
 ```
 
@@ -22,8 +22,11 @@ let benchmarks = $inputs_and_answers | nushell run
 ```nushell
 use benchmarks/2024/nushell
 
-let login = open ~/documents/aoc/cookie.nuon
-let inputs_and_answers = 1..7 | nushell pull --login $login --force
+let login = {
+    cookie: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    mail: "xxxx@xxx.xxx"
+}
+let inputs_and_answers = <days> | nushell pull --login $login
 
 let results = {
     nushell: (version),
@@ -31,7 +34,7 @@ let results = {
     results: ($inputs_and_answers | nushell run),
 }
 
-$results | to nuon -i 4 | save benchmarks/2024/nushell/a-stevan.nuon
+$results | to nuon -i 4 | save benchmarks/2024/nushell/<username>.nuon
 ```
 
 ## [@amtoine](https://github.com/amtoine)
