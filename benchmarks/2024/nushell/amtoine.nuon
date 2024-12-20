@@ -1,0 +1,93 @@
+{
+    nushell: {
+        version: "0.100.0",
+        major: 0,
+        minor: 100,
+        patch: 0,
+        branch: "",
+        commit_hash: "",
+        build_os: "linux-x86_64",
+        build_target: "x86_64-unknown-linux-gnu",
+        rust_version: "rustc 1.80.1 (3f5fd8dd4 2024-08-06)",
+        rust_channel: "1.80.1-x86_64-unknown-linux-gnu",
+        cargo_version: "cargo 1.80.1 (376290515 2024-07-16)",
+        build_time: "2024-11-20 19:27:39 +01:00",
+        build_rust_channel: release,
+        allocator: mimalloc,
+        features: "default, sqlite, trash",
+        installed_plugins: "clipboard 0.100.1, explore 0.100.0"
+    },
+    cpu: {
+        Architecture: "x86_64",
+        "CPU(s)": "8",
+        "Model name": "Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz",
+        "Thread(s) per core": "2",
+        "Core(s) per socket": "4",
+        "Socket(s)": "1",
+        "CPU max MHz": "3400.0000",
+        "CPU min MHz": "400.0000",
+        BogoMIPS: "3601.00",
+        "L1d cache": "128 KiB (4 instances)",
+        "L1i cache": "128 KiB (4 instances)",
+        "L2 cache": "1 MiB (4 instances)",
+        "L3 cache": "6 MiB (1 instance)"
+    },
+    results: [
+        [
+                day,
+                silver,
+                silver_time,
+                gold,
+                gold_time
+        ];
+        [
+            1,
+            pass,
+            22309300ns,
+            pass,
+            55566231ns
+        ],
+        [
+            2,
+            pass,
+            498416227ns,
+            pass,
+            3225867677ns
+        ],
+        [
+            3,
+            pass,
+            8602739ns,
+            pass,
+            66649439ns
+        ],
+        [
+            4,
+            pass,
+            347538098343ns,
+            pass,
+            130978055516ns
+        ],
+        [
+            5,
+            pass,
+            810747858ns,
+            null,
+            null
+        ],
+        [
+            6,
+            pass,
+            756571417ns,
+            pass,
+            2010058541422ns
+        ],
+        [
+            7,
+            pass,
+            104747847772ns,
+            null,
+            null
+        ]
+    ]
+}
